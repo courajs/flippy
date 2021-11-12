@@ -1,0 +1,26 @@
+<style>
+  svg {
+    margin: 10px;
+    width: 400px;
+    height: 400px;
+  }
+  svg rect.on {
+    fill: #ffcd4f;
+  }
+  svg rect.off {
+    fill: gray;
+  }
+</style>
+<svg viewBox="0 0 {{@board.rows.length}} {{@board.cols.length}}">
+{{#each @board.rows as |row y|}}
+  {{#each row as |cell x|}}
+    <rect
+      x={{x}}
+      y={{y}}
+      class={{if cell.on "on" "off"}}
+      width="0.95" height="0.95"
+      {{on 'click' cell.toggle}}
+    />
+  {{/each}}
+{{/each}}
+</svg>
