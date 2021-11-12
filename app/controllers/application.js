@@ -21,10 +21,13 @@ class Board {
   height;
   rows;
   cols;
+  storage_slot;
 
-  constructor({ width, height, cells }) {
+  constructor({ width, height, cells }, storage_slot = null) {
     this.width = width;
     this.height = height;
+    this.storage_slot = storage_slot;
+
     let len = width*height;
     this.cells = cells.map(on => new Cell(on));
 
@@ -59,6 +62,17 @@ class Board {
     return new Board({width, height, cells});
   }
 
+  static from_slot(slot) {
+    if (slot.value) {
+      return new Board(slot.value, slot);
+    } else {
+      let b = Board.blank(5, 5);
+      slot.value = b.serialize();
+      slot.save();
+      return b;
+    }
+  }
+
   cell(x, y) {
     return this.cells[x + y*this.width];
   }
@@ -71,6 +85,10 @@ class Board {
     });
     for (let [_x, _y] of cells) {
       this.cell(_x, _y)?.toggle();
+    }
+    if (this.storage_slot) {
+      this.storage_slot.value = this.serialize();
+      this.storage_slot.save();
     }
   }
 
@@ -86,8 +104,8 @@ class Board {
 export default class extends Controller {
   @service localStorage;
 
-  @tracked board = Board.random(5, 5);
   slot = this.localStorage.slot('number');
+  board_slot = this.localStorage.slot('board');
 
   constructor(...args) {
     super(...args);
@@ -95,6 +113,10 @@ export default class extends Controller {
       this.slot.value = 0;
       this.slot.save();
     }
+  }
+
+  get board() {
+    return Board.from_slot(this.board_slot);
   }
 
   @action setNumber(n) {
