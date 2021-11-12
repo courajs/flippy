@@ -19,7 +19,7 @@
       y={{y}}
       class={{if cell.on "on" "off"}}
       width="0.95" height="0.95"
-      {{on 'click' (fn @board.toggle x y)}}
+      {{on 'click' (fn this.toggle x y)}}
     />
   {{/each}}
 {{/each}}

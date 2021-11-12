@@ -1,5 +1,19 @@
 {{page-title "Flippy"}}
 
-<Board @board={{this.board}} />
+<style>
+  #controls {
+    margin: 10px;
+  }
+</style>
+
+<div id="controls">
+  <button {{on 'click' this.randomize}}>
+    Random
+  </button>
+  <button {{on 'click' this.blank}}>
+    Clear
+  </button>
+</div>
+<Board @board={{this.board}}/>
 
 {{outlet}}

@@ -84,4 +84,11 @@ class Board {
 
 export default class extends Controller {
   @tracked board = Board.random(5, 5);
+
+  @action randomize() {
+    this.board = Board.random(5, 5);
+  }
+  @action blank() {
+    this.board = Board.blank(5, 5);
+  }
 }
