@@ -21,11 +21,11 @@ class Board {
   rows;
   cols;
 
-  constructor(width, height, cells) {
+  constructor({ width, height, cells }) {
     this.width = width;
     this.height = height;
     let len = width*height;
-    this.cells = cells;
+    this.cells = cells.map(on => new Cell(on));
 
     this.rows = new Array(height);
     this.cols = new Array(width);
@@ -46,19 +46,16 @@ class Board {
 
   static blank(width, height) {
     let len = width*height;
-    let cells = new Array(len);
-    for (let i=0; i<len; i++) {
-      cells[i] = new Cell(false);
-    }
-    return new Board(width, height, cells);
+    let cells = new Array(width*height).fill(false);
+    return new Board({width, height, cells});
   }
   static random(width, height) {
     let len = width*height;
     let cells = new Array(len);
     for (let i=0; i<len; i++) {
-      cells[i] = new Cell(Math.random() > 0.5);
+      cells[i] = Math.random() > 0.5;
     }
-    return new Board(width, height, cells);
+    return new Board({width, height, cells});
   }
 
   cell(x, y) {
@@ -75,8 +72,16 @@ class Board {
       this.cell(_x, _y)?.toggle();
     }
   }
+
+  serialize() {
+    return {
+      width: this.width,
+      height: this.height,
+      cells: this.cells.map(c=>c.on),
+    };
+  }
 }
 
 export default class extends Controller {
-  @tracked board = Board.blank(5, 5);
+  @tracked board = Board.random(5, 5);
 }
