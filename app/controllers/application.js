@@ -124,28 +124,10 @@ function random_board_state() {
 
 export default class extends Controller {
   @service localStorage;
-
   board_slot = this.localStorage.slot('board', default_board_state());
-
-  constructor(...args) {
-    super(...args);
-  }
 
   get board() {
     return Board.from_slot(this.board_slot);
-  }
-
-  @action setNumber(n) {
-    this.slot.value = n;
-    this.slot.save();
-  }
-  @action dec() {
-    this.slot.value--;
-    this.slot.save();
-  }
-  @action inc() {
-    this.slot.value++;
-    this.slot.save();
   }
 
   @action randomize() {

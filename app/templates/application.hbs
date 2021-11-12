@@ -22,13 +22,6 @@
   }
 </style>
 
-<div class="thing">
-  <p>{{this.slot.value}}</p>
-  <button {{on 'click' (fn this.setNumber 0)}} >Zero</button>
-  <button {{on 'click' this.inc}} >+</button>
-  <button {{on 'click' this.dec}} >-</button>
-</div>
-
 <div id="controls">
   <button {{on 'click' this.randomize}}>
     Random
