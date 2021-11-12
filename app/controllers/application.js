@@ -12,11 +12,14 @@ class Cell {
 
 class Board {
   @tracked cells;
+  width;
+  height;
   rows;
   cols;
 
-
   constructor(width, height) {
+    this.width = width;
+    this.height = height;
     let len = width*height;
     this.cells = new Array(len);
     this.rows = new Array(height);
@@ -36,6 +39,21 @@ class Board {
         this.cols[col][row] = cell;
         this.rows[row][col] = cell;
       }
+    }
+  }
+
+  cell(x, y) {
+    return this.cells[x + y*this.width];
+  }
+
+  @action
+  toggle(x, y) {
+    let cells = [[x,y], [x+1,y], [x-1,y], [x,y+1], [x,y-1]];
+    cells = cells.filter(([x,y]) => {
+      return x >= 0 && x < this.width && y >= 0 && y < this.height;
+    });
+    for (let [_x, _y] of cells) {
+      this.cell(_x, _y)?.toggle();
     }
   }
 }
