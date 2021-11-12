@@ -1,17 +1,8 @@
-<style>
-  svg {
-    margin: 10px;
-    width: 400px;
-    height: 400px;
-  }
-  svg rect.on {
-    fill: #ffcd4f;
-  }
-  svg rect.off {
-    fill: gray;
-  }
-</style>
-<svg viewBox="0 0 {{@board.rows.length}} {{@board.cols.length}}">
+<svg
+  viewBox="0 0 {{@board.rows.length}} {{@board.cols.length}}"
+  class="board"
+  ...attributes
+>
 {{#each @board.rows as |row y|}}
   {{#each row as |cell x|}}
     <rect

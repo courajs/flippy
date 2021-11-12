@@ -4,7 +4,30 @@
   #controls {
     margin: 10px;
   }
+  .thing {
+    margin: 10px;
+  }
+
+  svg.board rect.on {
+    fill: #ffcd4f;
+  }
+  svg.board rect.off {
+    fill: gray;
+  }
+
+  svg#main-board {
+    margin: 10px;
+    width: 400px;
+    height: 400px;
+  }
 </style>
+
+<div class="thing">
+  <p>{{this.slot.value}}</p>
+  <button {{on 'click' (fn this.setNumber 0)}} >Zero</button>
+  <button {{on 'click' this.inc}} >+</button>
+  <button {{on 'click' this.dec}} >-</button>
+</div>
 
 <div id="controls">
   <button {{on 'click' this.randomize}}>
@@ -14,6 +37,6 @@
     Clear
   </button>
 </div>
-<Board @board={{this.board}}/>
+<Board @board={{this.board}} id="main-board"/>
 
 {{outlet}}

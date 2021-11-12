@@ -1,6 +1,7 @@
 import Controller from '@ember/controller';
 import {tracked} from '@glimmer/tracking';
 import {action} from '@ember/object';
+import {inject as service} from '@ember/service';
 
 class Cell {
   @tracked on;
@@ -83,7 +84,31 @@ class Board {
 }
 
 export default class extends Controller {
+  @service localStorage;
+
   @tracked board = Board.random(5, 5);
+  slot = this.localStorage.slot('number');
+
+  constructor(...args) {
+    super(...args);
+    if (!this.slot.value) {
+      this.slot.value = 0;
+      this.slot.save();
+    }
+  }
+
+  @action setNumber(n) {
+    this.slot.value = n;
+    this.slot.save();
+  }
+  @action dec() {
+    this.slot.value--;
+    this.slot.save();
+  }
+  @action inc() {
+    this.slot.value++;
+    this.slot.save();
+  }
 
   @action randomize() {
     this.board = Board.random(5, 5);
