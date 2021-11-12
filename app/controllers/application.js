@@ -100,19 +100,35 @@ class Board {
     };
   }
 }
+function default_board_state() {
+  return {
+    height: 5,
+    width: 5,
+    cells: new Array(25).fill(false),
+  };
+}
+function random_board_state() {
+  const width = 5;
+  const height = 5;
+  const len =width*height;
+  let cells = new Array(len);
+  for (let i=0; i<len; i++) {
+    cells[i] = Math.random() > 0.5;
+  }
+  return {
+    width,
+    height,
+    cells,
+  };
+}
 
 export default class extends Controller {
   @service localStorage;
 
-  slot = this.localStorage.slot('number');
-  board_slot = this.localStorage.slot('board');
+  board_slot = this.localStorage.slot('board', default_board_state());
 
   constructor(...args) {
     super(...args);
-    if (!this.slot.value) {
-      this.slot.value = 0;
-      this.slot.save();
-    }
   }
 
   get board() {
@@ -133,9 +149,11 @@ export default class extends Controller {
   }
 
   @action randomize() {
-    this.board = Board.random(5, 5);
+    this.board_slot.value = random_board_state();
+    this.board_slot.save();
   }
   @action blank() {
-    this.board = Board.blank(5, 5);
+    this.board_slot.value = default_board_state();
+    this.board_slot.save();
   }
 }

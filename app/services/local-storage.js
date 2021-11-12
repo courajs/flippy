@@ -32,12 +32,12 @@ class Proxyish {
 }
 
 export default class extends Service {
-  slot(key) {
+  slot(key, dfault) {
     let val = localStorage.getItem(key);
     if (val) {
       return new Proxyish(key, JSON.parse(val));
     } else {
-      return new Proxyish(key);
+      return new Proxyish(key, dfault);
     }
   }
 }
